@@ -1,35 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import Axios from "axios";
 
 //components
-import TextInput from './TextInput';
-import Button from './Button';
-import ClearButton from './ClearButton';
+import UrlInput from "./UrlInput";
+import Button from "./Button";
+import ClearButton from "./ClearButton";
+
+async function checkUrl(url: string) {
+  const result = await fetch(url, { method: "GET", headers: {} });
+  console.log(result);
+}
 
 const Wrapper = () => {
-  const [shortUrl, setShortUrl] = useState("");
+  const [url, setUrl] = useState("");
+  const [isFetched, setIsFetched] = useState(false);
+  Axios.defaults.withCredentials = true;
 
   function clearHandle() {
-    setShortUrl("");
+    setUrl("");
+    setIsFetched(false);
   }
 
-  function shortenHandle(){
-
+  function shortenHandle() {
+    Axios.post("http://localhost:8080/shorten", {
+      fullUrl: url,
+    }).then((res) => {
+      if (!res.data.short) {
+        setUrl("Invalid url");
+        return;
+      }
+      setUrl(window.location.href + res.data.short);
+      setIsFetched(true);
+    });
   }
 
-  function copyHandle(){
-    navigator.clipboard.writeText(shortUrl);
+  function copyHandle() {
+    navigator.clipboard.writeText(url);
   }
 
   return (
     <div id="Wrapper">
-      <TextInput />
+      <UrlInput setUrl={setUrl} value={url} />
       <ClearButton click={clearHandle} />
-      {shortUrl.length === 0 ?
-      <Button text="Shorten" click={shortenHandle} />
-      : <Button text="Copy" click={copyHandle} />
-      }
+      {!isFetched ? (
+        <Button text="Shorten" click={shortenHandle} />
+      ) : (
+        <Button text="Copy" click={copyHandle} />
+      )}
     </div>
   );
-}
+};
 
 export default Wrapper;

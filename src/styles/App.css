@@ -42,7 +42,7 @@ body {
   border-radius: 0.4em;
   display: inline-flex;
 }
-#Wrapper #TextInput {
+#Wrapper #UrlInput {
   height: 3rem;
   border: none;
   margin: 0;
