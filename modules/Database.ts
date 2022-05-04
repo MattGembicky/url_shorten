@@ -59,16 +59,26 @@ export const shorten = (
   url: string,
   callback: (value: UrlReturn) => QueryReturn
 ) => {
-  const EXISTENCEQUERY = "SELECT * FROM Urls WHERE url LIKE ?";
-  db.query(EXISTENCEQUERY, url + "%", (err, res): QueryReturn => {
+  const EXISTENCEQUERY = "SELECT * FROM Urls WHERE short LIKE ?";
+  const hash = md5(url).slice(-7);
+
+  db.query(EXISTENCEQUERY, hash + "%", (err, res): QueryReturn => {
     console.log(res);
     if (err) {
       console.log(err);
       return callback(undefined);
     }
-    if (res.length !== 0) {
-      return callback(res[0].short);
+    if (res.length > 0) {
+      if (res.length === 1) {
+        return callback(res[0].short);
+      }
+      res.forEach((record: any) => {
+        if (record.url === url) {
+          return callback(record.short);
+        }
+      });
     }
+
     createShortUrl(url, (short: UrlReturn): QueryReturn => {
       const INSERTATIONQUERY = "INSERT INTO Urls(url, short) VALUES (?, ?)";
       db.query(INSERTATIONQUERY, [url, short], (err: MysqlError | null) => {
