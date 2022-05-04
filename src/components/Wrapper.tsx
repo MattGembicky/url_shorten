@@ -6,12 +6,10 @@ import UrlInput from "./UrlInput";
 import Button from "./Button";
 import ClearButton from "./ClearButton";
 
-async function checkUrl(url: string) {
-  const result = await fetch(url, { method: "GET", headers: {} });
-  console.log(result);
-}
+//types
+import ErrorNumber from "../App";
 
-const Wrapper = () => {
+const Wrapper = ({ setErrorNumber }: { setErrorNumber: any }) => {
   const [url, setUrl] = useState("");
   const [isFetched, setIsFetched] = useState(false);
   Axios.defaults.withCredentials = true;
@@ -25,8 +23,9 @@ const Wrapper = () => {
     Axios.post("http://localhost:8080/shorten", {
       fullUrl: url,
     }).then((res) => {
-      if (!res.data.short) {
-        setUrl("Invalid url");
+      console.log(res);
+      if (!res.data.valid) {
+        setErrorNumber(res.data.errorNumber);
         return;
       }
       setUrl(window.location.href + res.data.short);

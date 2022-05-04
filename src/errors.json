@@ -1,0 +1,6 @@
+{
+    "database": ["Something went wrong with database. I'm are working on it."],
+    "validation": ["Entered URL does not exist. HTTP 400 error.",
+                   "Entered Url does not match any record. HTTP 404 error.",
+                   "I'm sorry but server didn't manage to shorten this Url. Try another one."]
+}

@@ -9,6 +9,8 @@
   font-weight: bold;
   cursor: pointer;
   padding: 0 0.8em 0 0.8em;
+  background-color: #12a400;
+  color: #ffffff;
 }
 html {
   height: 100%;
@@ -34,6 +36,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+#RedirectorText {
+  color: #ffffff;
 }
 #Wrapper {
   padding: 2em;
@@ -61,9 +66,9 @@ body {
   font-weight: bold;
   cursor: pointer;
   padding: 0 0.8em 0 0.8em;
-  border-radius: 0 0.4em 0.4em 0;
   background-color: #12a400;
   color: #ffffff;
+  border-radius: 0 0.4em 0.4em 0;
 }
 #Wrapper #ClearButton {
   height: 3rem;
@@ -74,6 +79,8 @@ body {
   font-weight: bold;
   cursor: pointer;
   padding: 0 0.8em 0 0.8em;
+  background-color: #12a400;
+  color: #ffffff;
   background-color: #ffffff;
   color: #555555;
 }
@@ -83,4 +90,36 @@ body {
 #Wrapper #ClearButton #ClearButtonIcon .icon {
   width: 1.7em;
   height: 1.7em;
+}
+.PopUpBox {
+  position: fixed;
+  top: 2vh;
+  left: 50%;
+  transform: translate(-50%);
+  width: 40vw;
+  min-width: 500px;
+  padding: 8px;
+  padding-left: 1em;
+  padding-right: 1em;
+  background-color: #320032;
+  font-size: 24px;
+}
+.PopUpBox .PopUpText {
+  color: #ffffff;
+  margin-bottom: 0.3em;
+  padding-bottom: 0.3em;
+  padding-left: 0.6em;
+  border-bottom: 2px solid #140014;
+}
+.PopUpBox .PopUpButton {
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 0.8em 0 0.8em;
+  background-color: #12a400;
+  color: #ffffff;
+  border-radius: 0.4em;
+  border: none;
+  float: right;
+  margin-right: 0.6em;
+  font-size: 1em;
 }
