@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.shorten = void 0;
+exports.getFullUrl = exports.shorten = void 0;
 const dbInit_1 = __importDefault(require("../utils/dbInit"));
 const md5_1 = __importDefault(require("md5"));
 function getShortUrl(url, callback) {
@@ -43,3 +43,17 @@ const shorten = (url, callback) => {
     });
 };
 exports.shorten = shorten;
+const getFullUrl = (url, callback) => {
+    const existenceQuery = "SELECT * FROM Urls WHERE short LIKE ?";
+    dbInit_1.default.query(existenceQuery, url, (err, res) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        if (res.length !== 0) {
+            return callback(res[0].url);
+        }
+        // todo
+    });
+};
+exports.getFullUrl = getFullUrl;

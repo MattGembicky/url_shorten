@@ -3,7 +3,7 @@ import axios from "axios";
 const app = express();
 import cors from "cors";
 import { dbConnection } from "./utils/utils";
-import { QueryReturn, shorten } from "./modules/Database";
+import { QueryReturn, shorten, getFullUrl } from "./modules/Database";
 import { FileWatcherEventKind } from "typescript";
 
 const PORT = process.env.PORT || 8080;
@@ -36,6 +36,15 @@ app.post("/shorten", async (req, res) => {
 
   shorten(url, (result: string): QueryReturn => {
     res.send({ short: result });
+    return undefined;
+  });
+});
+
+app.post("/redirect", async (req, res) => {
+  let url: string = req.body.shortUrl;
+
+  getFullUrl(url, (result: string): QueryReturn => {
+    res.send({ fullUrl: result });
     return undefined;
   });
 });

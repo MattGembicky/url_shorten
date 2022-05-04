@@ -47,3 +47,21 @@ export const shorten = (
     });
   });
 };
+
+export const getFullUrl = (
+  url: string,
+  callback: (value: string) => QueryReturn
+) => {
+  const existenceQuery = "SELECT * FROM Urls WHERE short LIKE ?";
+
+  db.query(existenceQuery, url, (err, res): QueryReturn => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    if (res.length !== 0) {
+      return callback(res[0].url);
+    }
+    // todo
+  });
+};

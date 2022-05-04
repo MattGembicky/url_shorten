@@ -46,3 +46,10 @@ app.post("/shorten", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return undefined;
     });
 }));
+app.post("/redirect", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let url = req.body.shortUrl;
+    (0, Database_1.getFullUrl)(url, (result) => {
+        res.send({ fullUrl: result });
+        return undefined;
+    });
+}));
