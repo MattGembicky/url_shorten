@@ -6,4 +6,4 @@ Client: React, Typescript and less CSS
 
 ### Progress:
 
-Done. I'll make just little changes.
+Done. I'll just make little changes.
