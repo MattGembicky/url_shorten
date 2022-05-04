@@ -3,8 +3,12 @@ import axios from "axios";
 const app = express();
 import cors from "cors";
 import { dbConnection } from "./utils/utils";
-import { QueryReturn, shorten, getFullUrl } from "./modules/Database";
-import { FileWatcherEventKind } from "typescript";
+import {
+  QueryReturn,
+  shorten,
+  getFullUrl,
+  UrlReturn,
+} from "./modules/Database";
 
 const PORT = process.env.PORT || 8080;
 
@@ -30,12 +34,24 @@ app.post("/shorten", async (req, res) => {
     }
     await axios(url);
   } catch (e) {
-    res.send({ short: undefined });
+    console.log(e);
+    res.send({ valid: false, errorNumber: 200 });
     return undefined;
   }
 
-  shorten(url, (result: string): QueryReturn => {
-    res.send({ short: result });
+  shorten(url, (result: UrlReturn): QueryReturn => {
+    console.log(result);
+    // database error
+    if (result !== undefined) {
+      // validation error
+      if (result !== null) {
+        res.send({ valid: true, short: result });
+      } else {
+        res.send({ valid: false, errorNumber: 202 });
+      }
+    } else {
+      res.send({ valid: false, errorNumber: 100 });
+    }
     return undefined;
   });
 });
@@ -43,8 +59,16 @@ app.post("/shorten", async (req, res) => {
 app.post("/redirect", async (req, res) => {
   let url: string = req.body.shortUrl;
 
-  getFullUrl(url, (result: string): QueryReturn => {
-    res.send({ fullUrl: result });
-    return undefined;
+  getFullUrl(url, (result: UrlReturn): QueryReturn => {
+    if (result !== undefined) {
+      if (result !== null) {
+        res.send({ found: true, fullUrl: result });
+      } else {
+        res.send({ found: false, errorNumber: 201 });
+      }
+    } else {
+      res.send({ found: false, errorNumber: 100 });
+    }
+    return;
   });
 });

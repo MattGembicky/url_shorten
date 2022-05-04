@@ -38,18 +38,42 @@ app.post("/shorten", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         yield (0, axios_1.default)(url);
     }
     catch (e) {
-        res.send({ short: undefined });
+        console.log(e);
+        res.send({ valid: false, errorNumber: 200 });
         return undefined;
     }
     (0, Database_1.shorten)(url, (result) => {
-        res.send({ short: result });
+        console.log(result);
+        // database error
+        if (result !== undefined) {
+            // validation error
+            if (result !== null) {
+                res.send({ valid: true, short: result });
+            }
+            else {
+                res.send({ valid: false, errorNumber: 202 });
+            }
+        }
+        else {
+            res.send({ valid: false, errorNumber: 100 });
+        }
         return undefined;
     });
 }));
 app.post("/redirect", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let url = req.body.shortUrl;
     (0, Database_1.getFullUrl)(url, (result) => {
-        res.send({ fullUrl: result });
-        return undefined;
+        if (result !== undefined) {
+            if (result !== null) {
+                res.send({ found: true, fullUrl: result });
+            }
+            else {
+                res.send({ found: false, errorNumber: 201 });
+            }
+        }
+        else {
+            res.send({ found: false, errorNumber: 100 });
+        }
+        return;
     });
 }));
