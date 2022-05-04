@@ -28,9 +28,9 @@ function getNewEnding(characters) {
     return result;
 }
 function createShortUrl(url, callback) {
-    const EXISTENCEQUERY = "SELECT * FROM Urls WHERE short LIKE ? ORDER BY date_added DESC";
+    const EXISTENCEQUERY = "SELECT * FROM Urls WHERE short LIKE ?% ORDER BY date_added DESC";
     let short = (0, md5_1.default)(url).slice(-7);
-    dbInit_1.default.query(EXISTENCEQUERY, "%" + short + "%", (err, res) => {
+    dbInit_1.default.query(EXISTENCEQUERY, short, (err, res) => {
         console.log(short, res);
         if (err) {
             console.log(err);
@@ -45,15 +45,23 @@ function createShortUrl(url, callback) {
     });
 }
 const shorten = (url, callback) => {
-    const EXISTENCEQUERY = "SELECT * FROM Urls WHERE url LIKE ?";
-    dbInit_1.default.query(EXISTENCEQUERY, url + "%", (err, res) => {
+    const EXISTENCEQUERY = "SELECT * FROM Urls WHERE short% LIKE ?";
+    const hash = (0, md5_1.default)(url).slice(-7);
+    dbInit_1.default.query(EXISTENCEQUERY, hash, (err, res) => {
         console.log(res);
         if (err) {
             console.log(err);
             return callback(undefined);
         }
-        if (res.length !== 0) {
-            return callback(res[0].short);
+        if (res.length > 0) {
+            if (res.length === 1) {
+                return callback(res[0].short);
+            }
+            res.forEach((record) => {
+                if (record.url === url) {
+                    return callback(record.short);
+                }
+            });
         }
         createShortUrl(url, (short) => {
             const INSERTATIONQUERY = "INSERT INTO Urls(url, short) VALUES (?, ?)";
@@ -72,7 +80,7 @@ const shorten = (url, callback) => {
 };
 exports.shorten = shorten;
 const getFullUrl = (url, callback) => {
-    const EXISTENCEQUERY = "SELECT * FROM Urls WHERE url LIKE ?";
+    const EXISTENCEQUERY = "SELECT * FROM Urls WHERE short LIKE ?";
     dbInit_1.default.query(EXISTENCEQUERY, url, (err, res) => {
         if (err) {
             console.log(err);

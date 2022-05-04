@@ -38,9 +38,9 @@ function createShortUrl(
   callback: (value: UrlReturn) => QueryReturn
 ) {
   const EXISTENCEQUERY =
-    "SELECT * FROM Urls WHERE short LIKE ? ORDER BY date_added DESC";
+    "SELECT * FROM Urls WHERE short LIKE ?% ORDER BY date_added DESC";
   let short = md5(url).slice(-7);
-  db.query(EXISTENCEQUERY, "%" + short + "%", (err, res): QueryReturn => {
+  db.query(EXISTENCEQUERY, short, (err, res): QueryReturn => {
     console.log(short, res);
     if (err) {
       console.log(err);
@@ -59,10 +59,10 @@ export const shorten = (
   url: string,
   callback: (value: UrlReturn) => QueryReturn
 ) => {
-  const EXISTENCEQUERY = "SELECT * FROM Urls WHERE short LIKE ?";
+  const EXISTENCEQUERY = "SELECT * FROM Urls WHERE short% LIKE ?";
   const hash = md5(url).slice(-7);
 
-  db.query(EXISTENCEQUERY, hash + "%", (err, res): QueryReturn => {
+  db.query(EXISTENCEQUERY, hash, (err, res): QueryReturn => {
     console.log(res);
     if (err) {
       console.log(err);
@@ -99,7 +99,7 @@ export const getFullUrl = (
   url: string,
   callback: (value: UrlReturn) => QueryReturn
 ) => {
-  const EXISTENCEQUERY = "SELECT * FROM Urls WHERE url LIKE ?";
+  const EXISTENCEQUERY = "SELECT * FROM Urls WHERE short LIKE ?";
   db.query(EXISTENCEQUERY, url, (err, res): QueryReturn => {
     if (err) {
       console.log(err);
