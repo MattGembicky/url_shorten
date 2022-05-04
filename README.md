@@ -6,4 +6,4 @@ Server: NodeJS, Typescript and MySQL
 
 ### Progress:
 
-It works but some error can ocurre, so I'm working on them.
+It's done. Following days I'll try to revel some bugs.
