@@ -28,10 +28,9 @@ function getNewEnding(characters) {
     return result;
 }
 function createShortUrl(url, callback) {
-    const EXISTENCEQUERY = "SELECT * FROM Urls WHERE short LIKE ?% ORDER BY date_added DESC";
+    const EXISTENCEQUERY = "SELECT * FROM Urls WHERE short LIKE ? ORDER BY date_added DESC";
     let short = (0, md5_1.default)(url).slice(-7);
-    dbInit_1.default.query(EXISTENCEQUERY, short, (err, res) => {
-        console.log(short, res);
+    dbInit_1.default.query(EXISTENCEQUERY, short + "%", (err, res) => {
         if (err) {
             console.log(err);
             return callback(undefined);
@@ -45,18 +44,14 @@ function createShortUrl(url, callback) {
     });
 }
 const shorten = (url, callback) => {
-    const EXISTENCEQUERY = "SELECT * FROM Urls WHERE short% LIKE ?";
+    const EXISTENCEQUERY = "SELECT * FROM Urls WHERE short LIKE ?";
     const hash = (0, md5_1.default)(url).slice(-7);
-    dbInit_1.default.query(EXISTENCEQUERY, hash, (err, res) => {
-        console.log(res);
+    dbInit_1.default.query(EXISTENCEQUERY, hash + "%", (err, res) => {
         if (err) {
             console.log(err);
             return callback(undefined);
         }
         if (res.length > 0) {
-            if (res.length === 1) {
-                return callback(res[0].short);
-            }
             res.forEach((record) => {
                 if (record.url === url) {
                     return callback(record.short);
@@ -86,7 +81,7 @@ const getFullUrl = (url, callback) => {
             console.log(err);
             return callback(undefined);
         }
-        if (res.length !== 0) {
+        if (res.length === 1) {
             return callback(res[0].url);
         }
         return callback(null);

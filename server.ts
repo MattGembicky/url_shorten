@@ -20,7 +20,7 @@ app.listen(PORT, () => {
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000"], //client
     methods: ["GET", "POST"],
     credentials: true,
   })
@@ -34,13 +34,11 @@ app.post("/shorten", async (req, res) => {
     }
     await axios(url);
   } catch (e) {
-    console.log(e);
-    res.send({ valid: false, errorNumber: 200 });
+    res.status(400).send();
     return undefined;
   }
 
   shorten(url, (result: UrlReturn): QueryReturn => {
-    console.log(result);
     // database error
     if (result !== undefined) {
       // validation error
@@ -64,7 +62,7 @@ app.post("/redirect", async (req, res) => {
       if (result !== null) {
         res.send({ found: true, fullUrl: result });
       } else {
-        res.send({ found: false, errorNumber: 201 });
+        res.status(404).send();
       }
     } else {
       res.send({ found: false, errorNumber: 100 });

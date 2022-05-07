@@ -38,12 +38,10 @@ app.post("/shorten", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         yield (0, axios_1.default)(url);
     }
     catch (e) {
-        console.log(e);
-        res.send({ valid: false, errorNumber: 200 });
+        res.status(400).send();
         return undefined;
     }
     (0, Database_1.shorten)(url, (result) => {
-        console.log(result);
         // database error
         if (result !== undefined) {
             // validation error
@@ -68,7 +66,7 @@ app.post("/redirect", (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 res.send({ found: true, fullUrl: result });
             }
             else {
-                res.send({ found: false, errorNumber: 201 });
+                res.status(404).send();
             }
         }
         else {
