@@ -15,12 +15,12 @@ import errors from "./errors.json";
 //types
 export type ErrorNumber = number | null;
 
-function getErrorMsg(errNum: ErrorNumber): string {
-  if (errNum === null) {
+function getErrorMsg(errorNumber: ErrorNumber): string {
+  if (errorNumber === null) {
     return "";
   }
-  const id = Math.floor(errNum / 100) - 1;
-  const index = errNum % 100;
+  const id = Math.floor(errorNumber / 100) - 1;
+  const index = errorNumber % 100;
   try {
     switch (id) {
       case 0: {

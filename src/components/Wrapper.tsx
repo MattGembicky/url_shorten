@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import Axios from "axios";
 
 //components
@@ -19,18 +19,21 @@ const Wrapper = ({ setErrorNumber }: { setErrorNumber: any }) => {
     setIsFetched(false);
   }
 
-  function shortenHandle() {
-    Axios.post("http://localhost:8080/shorten", {
-      fullUrl: url,
-    }).then((res) => {
-      console.log(res);
-      if (!res.data.valid) {
-        setErrorNumber(res.data.errorNumber);
-        return;
-      }
-      setUrl(window.location.href + res.data.short);
-      setIsFetched(true);
-    });
+  async function shortenHandle() {
+    try {
+      await Axios.post("http://localhost:8080/shorten", {
+        fullUrl: url,
+      }).then((res) => {
+        if (!res.data.valid) {
+          setErrorNumber(res.data.errorNumber);
+          return;
+        }
+        setUrl(window.location.href + res.data.short);
+        setIsFetched(true);
+      });
+    } catch (e) {
+      setErrorNumber(200);
+    }
   }
 
   function copyHandle() {
@@ -40,11 +43,13 @@ const Wrapper = ({ setErrorNumber }: { setErrorNumber: any }) => {
   return (
     <div id="Wrapper">
       <UrlInput setUrl={setUrl} value={url} />
-      <ClearButton click={clearHandle} />
       {!isFetched ? (
         <Button text="Shorten" click={shortenHandle} />
       ) : (
-        <Button text="Copy" click={copyHandle} />
+        <Fragment>
+          <ClearButton click={clearHandle} />
+          <Button text="Copy" click={copyHandle} />
+        </Fragment>
       )}
     </div>
   );

@@ -10,11 +10,9 @@ const PopUp = ({
   return (
     <div className="PopUpBox">
       <div className="PopUpText">{popUpText}</div>
-      <div>
-        <button className="PopUpButton" onClick={() => click()}>
-          OK
-        </button>
-      </div>
+      <button className="PopUpButton" onClick={() => click()}>
+        OK
+      </button>
     </div>
   );
 };
