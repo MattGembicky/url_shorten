@@ -1,0 +1,125 @@
+.wrapperElement {
+  height: 3rem;
+  border: none;
+  margin: 0;
+  padding: 0;
+  font-size: 1.2em;
+}
+.button {
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 0.8em 0 0.8em;
+  background-color: #12a400;
+  color: #ffffff;
+}
+html {
+  height: 100%;
+}
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+#root {
+  background-color: #230023;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+.App {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#RedirectorText {
+  color: #ffffff;
+}
+#Wrapper {
+  padding: 2em;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0.4em;
+  display: inline-flex;
+}
+#Wrapper #UrlInput {
+  height: 3rem;
+  border: none;
+  margin: 0;
+  padding: 0;
+  font-size: 1.2em;
+  width: auto;
+  padding: 0 1em 0 1em;
+  border-radius: 0.4em 0 0 0.4em;
+}
+#Wrapper #Button {
+  height: 3rem;
+  border: none;
+  margin: 0;
+  padding: 0;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 0.8em 0 0.8em;
+  background-color: #12a400;
+  color: #ffffff;
+  border-radius: 0 0.4em 0.4em 0;
+}
+#Wrapper #ClearButton {
+  height: 3rem;
+  border: none;
+  margin: 0;
+  padding: 0;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 0.8em 0 0.8em;
+  background-color: #12a400;
+  color: #ffffff;
+  background-color: #ffffff;
+  color: #555555;
+}
+#Wrapper #ClearButton #ClearButtonIcon {
+  max-height: 1.7em;
+}
+#Wrapper #ClearButton #ClearButtonIcon .icon {
+  width: 1.7em;
+  height: 1.7em;
+}
+.PopUpBox {
+  position: fixed;
+  top: 2vh;
+  left: 50%;
+  transform: translate(-50%);
+  width: 40vw;
+  min-width: 500px;
+  padding: 8px;
+  padding-left: 1em;
+  padding-right: 1em;
+  background-color: #320032;
+  font-size: 24px;
+}
+.PopUpBox .PopUpText {
+  color: #ffffff;
+  margin-bottom: 0.3em;
+  padding-bottom: 0.3em;
+  padding-left: 0.6em;
+  border-bottom: 2px solid #140014;
+}
+.PopUpBox .PopUpButton {
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 0.8em 0 0.8em;
+  background-color: #12a400;
+  color: #ffffff;
+  border-radius: 0.4em;
+  border: none;
+  float: right;
+  margin-right: 0.6em;
+  font-size: 1em;
+}
